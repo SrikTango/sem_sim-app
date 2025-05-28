@@ -8,4 +8,4 @@ wordcloud==1.8.0
 gensim==4.3.3
 scikit-learn==1.3.2
 streamlit==1.40.1
-setuptools==(75.3.2)
+pip==25.0.1
