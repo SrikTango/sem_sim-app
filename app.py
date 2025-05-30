@@ -6,7 +6,7 @@ import nltk
 from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 from scipy.spatial.distance import cosine
-from gensim.models import KeyedVectors
+from gensim.models import KeyedVectors, word2vec
 
 # Download NLTK data if not already present
 #nltk.download('punkt')
@@ -75,7 +75,8 @@ if not st.session_state.model_loaded:
         model_file.seek(0)
         
         #Load the model from the file-like object
-        st.session_state.model = KeyedVectors.load_word2vec_format(model_file, binary=True)
+        #st.session_state.model = KeyedVectors.load_word2vec_format(model_file, binary=True)
+        st.session_state.model = word2vec.Word2Vec.load_word2vec_format(model_file, binary=True)
         st.session_state.model_loaded = True
         
         
