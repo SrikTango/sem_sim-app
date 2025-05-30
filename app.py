@@ -63,12 +63,12 @@ if "model_loaded" not in st.session_state:
 
 #Displays the file uploader widget only if the model has not been loaded
 if not st.session_state.model_loaded:
-    uploaded_file = st.file_uploader("Upload your GoogleNews-vectors-negative300-SLIM.bin.gz file", type=["bin", "gz"])
+    uploaded_file = st.file_uploader("Upload your bin file", type=["bin"])
     if uploaded_file is not None:
         #Read the uploaded file into bytes
         file_bytes = uploaded_file.read()
         #Use a NamedTemporaryFile to write the contents to disk
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".bin.gz") as tmp_file:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".bin") as tmp_file:
             tmp_file.write(file_bytes)
             tmp_file.flush()
             tmp_filepath = tmp_file.name
