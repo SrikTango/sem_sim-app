@@ -62,21 +62,18 @@ if "model_loaded" not in st.session_state:
 
 #Displays the file uploader widget only if the model has not been loaded
 if not st.session_state.model_loaded:
-    uploaded_file = st.file_uploader("Upload your pre-trained Word2Vec model file (.bin or .gz)", type=["bin", "gz"])
+    uploaded_file = st.file_uploader("Upload your GoogleNews-vectors-negative300-SLIM.bin.gz file", type=["bin", "gz"])
     if uploaded_file is not None:
         #Read the uploaded file into bytes
         file_bytes = uploaded_file.read()
-        #Store the file in a NumPy buffer.
-        buffer_array = np.frombuffer(file_bytes, dtype=np.uint8)
-        bytes_data = buffer_array.tobytes()
-        
-        #Creates a BytesIO object, acting like a file
-        model_file = io.BytesIO(bytes_data)
-        model_file.seek(0)
-        
-        #Load the model from the file-like object
-        st.session_state.model = KeyedVectors.load_word2vec_format(model_file, binary=True)
-        #st.session_state.model = word2vec.Word2Vec.load_word2vec_format(model_file, binary=True)
+        #Use a NamedTemporaryFile to write the contents to disk
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".bin.gz") as tmp_file:
+            tmp_file.write(file_bytes)
+            tmp_file.flush()
+            tmp_filepath = tmp_file.name
+
+        # Load the model from the temporary file path.
+        st.session_state.model = KeyedVectors.load_word2vec_format(tmp_filepath, binary=True)
         st.session_state.model_loaded = True
         
         
