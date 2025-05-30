@@ -3,6 +3,7 @@ import numpy as np
 import io
 import re
 import nltk
+import tempfile
 from nltk.tokenize import sent_tokenize
 from nltk.corpus import stopwords
 from scipy.spatial.distance import cosine
