@@ -75,7 +75,7 @@ if not st.session_state.model_loaded:
         model_file.seek(0)
         
         #Load the model from the file-like object
-        st.session_state.model = KeyedVectors.load_word2vec_format(model_file, binary=True, limit=200000)
+        st.session_state.model = KeyedVectors.load_word2vec_format(model_file, binary=True, limit=500000)
         st.session_state.model_loaded = True
         
         
