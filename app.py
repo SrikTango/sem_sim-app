@@ -17,13 +17,13 @@ nltk.download('stopwords')
 def preprocess_text(para):
     preprocessed_text = []
     for sent in range(len(para)):
-        # Remove newline characters, quotes, spaces and non-alphanumeric characters
+        #Remove newline characters, quotes, spaces and non-alphanumeric characters with single space
         sent_text = re.sub('\\r', ' ', str(para[sent]))
         sent_text = re.sub('\\"', ' ', sent_text)
         sent_text = re.sub(r'\s+', ' ', sent_text, flags=re.I)
         sent_text = re.sub('\\n', ' ', sent_text)
         sent_text = re.sub('[^A-Za-z0-9]+', ' ', sent_text)
-        # Remove stopwords and convert them to lower case
+        #Remove stopwords and convert them to lower case
         sent_text = ' '.join(e for e in sent_text.split() if e not in stopwords.words('english'))
         preprocessed_text.append(sent_text.lower())
     return preprocessed_text
@@ -49,7 +49,7 @@ def sem_score(paragraph1, paragraph2):
     
     emb1 = embedding(paragraph1)
     emb2 = embedding(paragraph2)
-    # Calculates cosine similarity between embeddings
+    #Calculates cosine similarity between embeddings
     sim = 1 - cosine(emb1, emb2)
     return sim
 
@@ -57,7 +57,7 @@ def sem_score(paragraph1, paragraph2):
 #Streamlit app
 st.title("Sentence Similarity Checker")
 
-#Use session_state to check whether the model has been loaded
+#Use session_state to check if the model has been loaded or
 if "model_loaded" not in st.session_state:
     st.session_state.model_loaded = False
 
@@ -67,14 +67,14 @@ if not st.session_state.model_loaded:
     if uploaded_file is not None:
         #Read the uploaded file into bytes
         file_bytes = uploaded_file.read()
-        #Use a NamedTemporaryFile to write the contents to disk
+        #Use a NamedTemporaryFile to write the file contents to disk
         with tempfile.NamedTemporaryFile(delete=False, suffix=".bin") as tmp_file:
             tmp_file.write(file_bytes)
             tmp_file.flush()
-            tmp_filepath = tmp_file.name
+            model_filepath = tmp_file.name
 
-        # Load the model from the temporary file path.
-        st.session_state.model = KeyedVectors.load_word2vec_format(tmp_filepath, binary=True)
+        #Load the model from the temporary file path
+        st.session_state.model = KeyedVectors.load_word2vec_format(model_filepath, binary=True)
         st.session_state.model_loaded = True
         
         
