@@ -10,8 +10,8 @@ from scipy.spatial.distance import cosine
 from gensim.models import KeyedVectors, word2vec
 
 # Download NLTK data if not already present
-#nltk.download('punkt')
-#nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('stopwords')
 
 #Function for performing text pre=processing
 def preprocess_text(para):
